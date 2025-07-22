@@ -1,11 +1,10 @@
+import { BookOpen, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { BookOpen, Mail, Lock, User, Eye, EyeOff, Zap } from "lucide-react";
-import { useAuth } from "../context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 import MentorQuiz from "../components/MentorQuiz";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const { login } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
@@ -18,9 +17,9 @@ const Login = () => {
     password: "",
     confirmPassword: "",
     role: "learner",
-    experience: "",
-    skills: [],
-    languages: [],
+    experience: "" as string | number, // Initialize as string or number to be flexible
+    skills: [] as string[], // Explicitly define as string array
+    languages: [] as string[], // Explicitly define as string array
     bio: "",
   });
   const [skillInput, setSkillInput] = useState("");
@@ -36,9 +35,7 @@ const Login = () => {
       if (success) {
         navigate("/dashboard");
       } else {
-        setLoginError(
-          "Invalid email or password."
-        );
+        setLoginError("Invalid email or password.");
       }
     } else {
       // Handle signup - check if mentor role selected
@@ -67,7 +64,7 @@ const Login = () => {
   const handleQuizComplete = (passed: boolean, score: number) => {
     if (passed) {
       // Auto-login with demo credentials after passing quiz
-      const success = login("prashannasr@gmail.com", "prashanna ramesh23");
+      const success = login("ps@gmail.com", "69");
       if (success) {
         alert(
           `Congratulations! You scored ${score.toFixed(
@@ -107,11 +104,21 @@ const Login = () => {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
+    const { name, value, type } = e.target;
+
+    setFormData((prevFormData) => {
+      if (name === "experience" && type === "number") {
+        return {
+          ...prevFormData,
+          [name]: parseFloat(value), // Convert to number for experience
+        };
+      }
+      return {
+        ...prevFormData,
+        [name]: value,
+      };
     });
   };
 
@@ -533,18 +540,18 @@ const Login = () => {
           </div>
 
           {/* Demo Credentials Info */}
-          {/* {isLogin && (
+          {isLogin && (
             <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
               <h4 className="text-sm font-medium text-blue-900 mb-2">
                 Demo Credentials:
               </h4>
               <p className="text-sm text-blue-700">
-                <strong>Email:</strong> prashannasr@gmail.com
+                <strong>Email:</strong> ps@gmail.com
                 <br />
-                <strong>Password:</strong> prashanna ramesh23
+                <strong>Password:</strong> 69
               </p>
             </div>
-          )} */}
+          )}
 
           <div className="mt-6">
             <div className="relative">

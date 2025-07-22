@@ -1,6 +1,5 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star, Users, BookOpen, Target, TrendingUp, Clock, Award, ChevronRight } from 'lucide-react';
+import { ArrowRight, Star, Users, BookOpen, Target, TrendingUp, Award, ChevronRight } from 'lucide-react';
 import { skills, mentors, testimonials } from '../data/mockData';
 import SkillCard from '../components/SkillCard';
 import MentorCard from '../components/MentorCard';

@@ -50,12 +50,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = (email: string, password: string): boolean => {
     // Simulate login with specific credentials
     if (
-      email === "prashannasr@gmail.com" &&
-      password === "prashanna ramesh23"
+      email === "ps@gmail.com" &&
+      password === "69"
     ) {
       const userData: User = {
-        email: "prashannasr@gmail.com",
-        name: "Prashanna",
+        email: "ps@gmail.com",
+        name: "69",
         role: "mentor",
       };
 

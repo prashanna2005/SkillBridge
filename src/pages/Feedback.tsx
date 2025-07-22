@@ -1,5 +1,5 @@
+import { CheckCircle, Star } from 'lucide-react';
 import React, { useState } from 'react';
-import { Star, MessageSquare, CheckCircle, User } from 'lucide-react';
 
 const Feedback = () => {
   const [formData, setFormData] = useState({
@@ -28,7 +28,7 @@ const Feedback = () => {
     });
   };
 
-  const StarRating = ({ rating, onRatingChange, name }: { rating: number; onRatingChange: (rating: number) => void; name: string }) => {
+  const StarRating = ({ rating, onRatingChange }: { rating: number; onRatingChange: (rating: number) => void; name: string }) => {
     return (
       <div className="flex space-x-1">
         {[1, 2, 3, 4, 5].map((star) => (
