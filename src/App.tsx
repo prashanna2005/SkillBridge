@@ -1,18 +1,17 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
-import Navbar from "./components/Navbar";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
-import Landing from "./pages/Landing";
+import Navbar from "./components/Navbar";
+import { AuthProvider } from "./context/AuthContext";
 import About from "./pages/About";
-import Mentors from "./pages/Mentors";
 import Booking from "./pages/Booking";
-import Feedback from "./pages/Feedback";
-import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import Feedback from "./pages/Feedback";
+import Landing from "./pages/Landing";
+import LearnerProfile from "./pages/LearnerProfile";
+import Login from "./pages/Login";
 import LogoShowcase from "./pages/LogoShowcase";
 import MentorProfile from "./pages/MentorProfile";
-import LearnerProfile from "./pages/LearnerProfile";
+import Mentors from "./pages/Mentors";
 
 function App() {
   return (

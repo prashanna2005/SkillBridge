@@ -25,7 +25,7 @@ const MentorProfile = () => {
   const mentorData = {
     name: "Prashanna",
     email: "prashannasr@gmail.com",
-    avatar: "/public/Prashanna1.jpg",
+    avatar: "/Prashanna1.jpg",
     bio: "Senior Frontend Developer with 5+ years of experience in React and modern web technologies. Passionate about teaching and helping others grow in their development journey.",
     skills: [
       "React",
