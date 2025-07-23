@@ -55,7 +55,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     ) {
       const userData: User = {
         email: "ps@gmail.com",
-        name: "69",
+        name: "prashanna",
         role: "mentor",
       };
 
