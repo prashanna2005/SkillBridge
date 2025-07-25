@@ -11,6 +11,10 @@
   },
   "dependencies": {
     "@types/react-router-dom": "^5.3.3",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "ibm-cloud-sdk-core": "^5.4.2",
+    "ibm-watson": "^6.2.2",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -31,5 +35,18 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.3.0",
     "vite": "^5.4.2"
-  }
+  },
+  "description": "",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prashanna2005/SkillBridge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prashanna2005/SkillBridge/issues"
+  },
+  "homepage": "https://github.com/prashanna2005/SkillBridge#readme"
 }

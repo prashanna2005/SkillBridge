@@ -49,7 +49,7 @@ export const mentors: User[] = [
     name: 'Jaivant',
     email: 'jaivant@email.com',
     avatar: '/jaivant.jpg',
-    bio: 'Product Designer with expertise in user research and interaction design.',
+    // bio: 'Product Designer with expertise in user research and interaction design.',
     skills: ['UI/UX Design', 'Figma', 'User Research', 'Prototyping'],
     rating: 4.9,
     reviews: 164,
@@ -58,7 +58,8 @@ export const mentors: User[] = [
     location: 'Canada',
     experience: '6+ years',
     languages: ['English', 'Hindi'],
-    sessionCount: 312
+    sessionCount: 312,
+    bio: ''
   },
   {
     id: '4',

@@ -1,6 +1,6 @@
-import React from 'react';
-import { Star, MapPin, Clock, Languages, Award } from 'lucide-react';
-import { User } from '../types';
+import React, { useState } from "react";
+import { Star, MapPin, Clock, Languages, Award, Sparkles } from "lucide-react";
+import { User } from "../types";
 
 interface MentorCardProps {
   mentor: User;
@@ -8,8 +8,34 @@ interface MentorCardProps {
 }
 
 const MentorCard: React.FC<MentorCardProps> = ({ mentor, onClick }) => {
+  const [aiBio, setAiBio] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const generateBio = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:5000/generate-bio", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: mentor.name,
+          skills: mentor.skills,
+          experience: mentor.experience,
+          sessionCount: mentor.sessionCount,
+        }),
+      });
+
+      const data = await response.json();
+      setAiBio(data.bio);
+    } catch (error) {
+      setAiBio("⚠️ Failed to generate bio. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div 
+    <div
       className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group"
       onClick={onClick}
     >
@@ -26,8 +52,12 @@ const MentorCard: React.FC<MentorCardProps> = ({ mentor, onClick }) => {
           <div className="flex items-center space-x-2 mt-1">
             <div className="flex items-center space-x-1">
               <Star className="h-4 w-4 text-yellow-400 fill-current" />
-              <span className="text-sm font-medium text-gray-700">{mentor.rating}</span>
-              <span className="text-sm text-gray-500">({mentor.reviews} reviews)</span>
+              <span className="text-sm font-medium text-gray-700">
+                {mentor.rating}
+              </span>
+              <span className="text-sm text-gray-500">
+                ({mentor.reviews} reviews)
+              </span>
             </div>
           </div>
           <div className="flex items-center space-x-1 mt-1 text-gray-600">
@@ -36,14 +66,38 @@ const MentorCard: React.FC<MentorCardProps> = ({ mentor, onClick }) => {
           </div>
         </div>
         <div className="text-right">
-          <div className="text-lg font-semibold text-gray-900">${mentor.hourlyRate}</div>
+          <div className="text-lg font-semibold text-gray-900">
+            ${mentor.hourlyRate}
+          </div>
           <div className="text-sm text-gray-500">per hour</div>
         </div>
       </div>
 
       <p className="text-gray-600 text-sm mb-4 line-clamp-2">{mentor.bio}</p>
 
-      <div className="flex flex-wrap gap-2 mb-4">
+      {/* 🔹 Generate AI Bio Button */}
+      <button
+        className="text-sm text-white bg-blue-600 px-3 py-1 rounded hover:bg-blue-700 transition"
+        onClick={(e) => {
+          e.stopPropagation();
+          generateBio();
+        }}
+        disabled={loading}
+      >
+        <Sparkles className="inline-block h-4 w-4 mr-1" />
+        {loading ? "Generating..." : "Generate Bio"}
+      </button>
+
+      {/* 🔹 Display AI Bio */}
+      {aiBio && (
+        <div className="mt-3 text-sm bg-gray-100 p-3 rounded text-gray-700">
+          <strong>AI-Generated Bio:</strong>
+          <br />
+          {aiBio}
+        </div>
+      )}
+
+      <div className="flex flex-wrap gap-2 my-4">
         {mentor.skills.slice(0, 3).map((skill, index) => (
           <span
             key={index}
@@ -73,7 +127,7 @@ const MentorCard: React.FC<MentorCardProps> = ({ mentor, onClick }) => {
         <div className="flex items-center space-x-1">
           <Languages className="h-4 w-4 text-gray-400" />
           <span className="text-sm text-gray-500">
-            {mentor.languages.slice(0, 2).join(', ')}
+            {mentor.languages.slice(0, 2).join(", ")}
           </span>
         </div>
       </div>
