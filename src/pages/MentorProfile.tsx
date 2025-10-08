@@ -21,26 +21,19 @@ const MentorProfile = () => {
     string | null
   >(null);
 
-  // Your original mock mentor data
+  // Use user data
   const mentorData = {
-    name: "Prashanna",
-    email: "prashannasr@gmail.com",
-    avatar: "/Prashanna1.jpg",
-    bio: "Senior Frontend Developer with 5+ years of experience in React and modern web technologies. Passionate about teaching and helping others grow in their development journey.",
-    skills: [
-      "React",
-      "TypeScript",
-      "Next.js",
-      "Tailwind CSS",
-      "Node.js",
-      "GraphQL",
-    ],
-    languages: ["English", "Tamil", "Telugu"],
-    experience: "5+ years",
+    name: user?.name || "Mentor",
+    email: user?.email || "",
+    avatar: "/Prashanna1.jpg", // TODO: add avatar to user
+    bio: user?.bio || "Experienced mentor passionate about teaching.",
+    skills: user?.skills || ["React", "JavaScript"],
+    languages: user?.languages || ["English"],
+    experience: user?.experience ? `${user.experience} years` : "5+ years",
     rating: 4.9,
     reviews: 127,
     sessionCount: 245,
-    location: "San Francisco, CA",
+    location: "San Francisco, CA", // TODO: add location
   };
 
   // Your original mock accepted sessions
