@@ -25,7 +25,7 @@ const MentorProfile = () => {
     console.log("activeChatSession changed:", activeChatSession);
   }, [activeChatSession]);
 
-  // Your original mock mentor data
+  // Use user data
   const mentorData = {
     name: "Prashanna",
     email: "prashannasr@gmail.com",
@@ -44,7 +44,7 @@ const MentorProfile = () => {
     rating: 4.9,
     reviews: 127,
     sessionCount: 245,
-    location: "San Francisco, CA",
+    location: "San Francisco, CA", // TODO: add location
   };
 
   // Your original mock accepted sessions

@@ -18,13 +18,13 @@ const LearnerProfile = () => {
     string | null
   >(null);
 
-  // Mock learner data
+  // Use user data
   const learnerData = {
-    name: "Alex Thompson",
-    email: "alex.thompson@email.com",
+    name: user?.name || "Learner",
+    email: user?.email || "",
     avatar:
       "https://images.pexels.com/photos/1300402/pexels-photo-1300402.jpeg?auto=compress&cs=tinysrgb&w=400",
-    joinDate: "January 2024",
+    joinDate: "January 2024", // TODO: fetch from DB
     totalSessions: 12,
     averageRating: 4.8,
   };

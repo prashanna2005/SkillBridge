@@ -19,6 +19,58 @@ const Dashboard = () => {
     null
   );
 
+  // Role-based stats
+  const getStats = () => {
+    if (user?.role === "mentor") {
+      return [
+        {
+          label: "Sessions Conducted",
+          value: "45",
+          icon: BookOpen,
+          color: "bg-blue-500",
+        },
+        { label: "Students Mentored", value: "23", icon: Users, color: "bg-green-500" },
+        {
+          label: "Average Rating",
+          value: "4.9",
+          icon: Star,
+          color: "bg-yellow-500",
+        },
+        {
+          label: "Experience",
+          value: user.experience ? `${user.experience} years` : "5+ years",
+          icon: TrendingUp,
+          color: "bg-purple-500",
+        },
+      ];
+    } else {
+      // learner
+      return [
+        {
+          label: "Sessions Completed",
+          value: "12",
+          icon: BookOpen,
+          color: "bg-blue-500",
+        },
+        { label: "Hours Learned", value: "18", icon: Clock, color: "bg-green-500" },
+        {
+          label: "Average Rating",
+          value: "4.8",
+          icon: Star,
+          color: "bg-yellow-500",
+        },
+        {
+          label: "Skills Improved",
+          value: "6",
+          icon: TrendingUp,
+          color: "bg-purple-500",
+        },
+      ];
+    }
+  };
+
+  const stats = getStats();
+
   const upcomingSessions = [
     {
       id: 1,
@@ -57,28 +109,6 @@ const Dashboard = () => {
     },
   ];
 
-  const stats = [
-    {
-      label: "Sessions Completed",
-      value: "12",
-      icon: BookOpen,
-      color: "bg-blue-500",
-    },
-    { label: "Hours Learned", value: "18", icon: Clock, color: "bg-green-500" },
-    {
-      label: "Average Rating",
-      value: "4.8",
-      icon: Star,
-      color: "bg-yellow-500",
-    },
-    {
-      label: "Skills Improved",
-      value: "6",
-      icon: TrendingUp,
-      color: "bg-purple-500",
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -87,7 +117,7 @@ const Dashboard = () => {
           <div className="flex justify-between items-center py-6">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">
-                Welcome back, Prashanna!
+                Welcome back, {user?.name || "User"}!
               </h1>
               <p className="text-gray-600">
                 Track your learning progress and manage your sessions

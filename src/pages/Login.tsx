@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, register, user } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [showQuiz, setShowQuiz] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -25,15 +25,20 @@ const Login = () => {
   const [skillInput, setSkillInput] = useState("");
   const [languageInput, setLanguageInput] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError("");
 
     if (isLogin) {
       // Handle login
-      const success = login(formData.email, formData.password);
-      if (success) {
-        navigate("/dashboard");
+      const result = await login(formData.email, formData.password);
+      if (result.success) {
+        // Redirect based on role
+        if (result.user?.role === "both") {
+          navigate("/both-dashboard");
+        } else {
+          navigate("/dashboard");
+        }
       } else {
         setLoginError("Invalid email or password.");
       }
@@ -56,22 +61,79 @@ const Login = () => {
         setShowQuiz(true);
       } else {
         // Direct signup for learners
-        handleSignupComplete();
+        const result = await register({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          role: formData.role,
+        });
+        if (result.success) {
+          alert("Account created successfully! Logging you in...");
+          // Auto-login after successful registration
+          const loginResult = await login(formData.email, formData.password);
+          if (loginResult.success) {
+            // Redirect based on role
+            if (formData.role === "both") {
+              navigate("/both-dashboard");
+            } else {
+              navigate("/dashboard");
+            }
+          } else {
+            alert("Login failed after registration. Please try logging in manually.");
+            setIsLogin(true);
+          }
+          setFormData({
+            name: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            role: "learner",
+            experience: "",
+            skills: [],
+            languages: [],
+            bio: "",
+          });
+        } else {
+          alert(result.message);
+        }
       }
     }
   };
 
-  const handleQuizComplete = (passed: boolean, score: number) => {
+  const handleQuizComplete = async (passed: boolean, score: number) => {
     if (passed) {
-      // Auto-login with demo credentials after passing quiz
-      const success = login("ps@gmail.com", "69");
-      if (success) {
+      // Register the mentor after passing quiz
+      const result = await register({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role,
+        experience: formData.experience,
+        skills: formData.skills,
+        languages: formData.languages,
+        bio: formData.bio,
+      });
+      if (result.success) {
         alert(
           `Congratulations! You scored ${score.toFixed(
             0
           )}% and are now registered as a mentor.`
         );
-        navigate("/dashboard");
+        // Auto-login after mentor registration
+        const loginResult = await login(formData.email, formData.password);
+        if (loginResult.success) {
+          // Redirect based on role
+          if (formData.role === "both") {
+            navigate("/both-dashboard");
+          } else {
+            navigate("/dashboard");
+          }
+        } else {
+          alert("Login failed after registration. Please try logging in manually.");
+          navigate("/login");
+        }
+      } else {
+        alert(result.message);
       }
     } else {
       alert(
@@ -82,22 +144,7 @@ const Login = () => {
     }
   };
 
-  const handleSignupComplete = () => {
-    // For learners, just show success message
-    alert("Account created successfully! Please login with your credentials.");
-    setIsLogin(true);
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      role: "learner",
-      experience: "",
-      skills: [],
-      languages: [],
-      bio: "",
-    });
-  };
+
 
   const handleBackToSignup = () => {
     setShowQuiz(false);

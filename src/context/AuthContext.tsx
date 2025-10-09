@@ -7,15 +7,21 @@ import React, {
 } from "react";
 
 interface User {
+  id?: string;
   email: string;
   name: string;
   role: "mentor" | "learner" | "both";
+  experience?: number;
+  skills?: string[];
+  languages?: string[];
+  bio?: string;
 }
 
 interface AuthContextType {
   isLoggedIn: boolean;
   user: User | null;
-  login: (email: string, password: string) => boolean;
+  login: (email: string, password: string) => Promise<{ success: boolean; user?: User }>;
+  register: (userData: any) => Promise<{ success: boolean; message: string }>;
   logout: () => void;
 }
 
@@ -47,33 +53,63 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const login = (email: string, password: string): boolean => {
-    // Simulate login with specific credentials
-    if (
-      email === "ps@gmail.com" &&
-      password === "69"
-    ) {
-      const userData: User = {
-        email: "ps@gmail.com",
-        name: "prashanna",
-        role: "mentor",
-      };
+  const login = async (email: string, password: string): Promise<{ success: boolean; user?: User }> => {
+    try {
+      const response = await fetch('http://localhost:5001/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-      setIsLoggedIn(true);
-      setUser(userData);
+      const data = await response.json();
 
-      // Save to localStorage for persistence
-      localStorage.setItem(
-        "skillbridge_auth",
-        JSON.stringify({
-          isLoggedIn: true,
-          user: userData,
-        })
-      );
+      if (response.ok) {
+        setIsLoggedIn(true);
+        setUser(data.user);
 
-      return true;
+        // Save to localStorage for persistence
+        localStorage.setItem(
+          "skillbridge_auth",
+          JSON.stringify({
+            isLoggedIn: true,
+            user: data.user,
+          })
+        );
+
+        return { success: true, user: data.user };
+      } else {
+        console.error('Login failed:', data.message);
+        return { success: false };
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      return { success: false };
     }
-    return false;
+  };
+
+  const register = async (userData: any): Promise<{ success: boolean; message: string }> => {
+    try {
+      const response = await fetch('http://localhost:5001/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return { success: true, message: data.message };
+      } else {
+        return { success: false, message: data.message };
+      }
+    } catch (error) {
+      console.error('Register error:', error);
+      return { success: false, message: 'Registration failed' };
+    }
   };
 
   const logout = () => {
@@ -86,6 +122,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isLoggedIn,
     user,
     login,
+    register,
     logout,
   };
 
