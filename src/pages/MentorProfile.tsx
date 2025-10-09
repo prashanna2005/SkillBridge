@@ -21,11 +21,15 @@ const MentorProfile = () => {
     string | null
   >(null);
 
+  React.useEffect(() => {
+    console.log("activeChatSession changed:", activeChatSession);
+  }, [activeChatSession]);
+
   // Your original mock mentor data
   const mentorData = {
     name: "Prashanna",
     email: "prashannasr@gmail.com",
-    avatar: "/Prashanna1.jpg",
+    avatar: "/avatar1.png",
     bio: "Senior Frontend Developer with 5+ years of experience in React and modern web technologies. Passionate about teaching and helping others grow in their development journey.",
     skills: [
       "React",
