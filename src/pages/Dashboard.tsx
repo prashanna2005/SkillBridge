@@ -43,28 +43,6 @@ const Dashboard = () => {
           color: "bg-purple-500",
         },
       ];
-    } else if (user?.role === "both") {
-      return [
-        {
-          label: "Sessions Completed",
-          value: "28",
-          icon: BookOpen,
-          color: "bg-blue-500",
-        },
-        { label: "Hours Learned", value: "42", icon: Clock, color: "bg-green-500" },
-        {
-          label: "Sessions Conducted",
-          value: "15",
-          icon: Users,
-          color: "bg-yellow-500",
-        },
-        {
-          label: "Skills Mastered",
-          value: "8",
-          icon: TrendingUp,
-          color: "bg-purple-500",
-        },
-      ];
     } else {
       // learner
       return [

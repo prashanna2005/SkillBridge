@@ -4,6 +4,8 @@ import Navbar from "./components/Navbar";
 import { AuthProvider } from "./context/AuthContext";
 import About from "./pages/About";
 import Booking from "./pages/Booking";
+import BothDashboard from "./pages/BothDashboard";
+import BothProfile from "./pages/BothProfile";
 import Dashboard from "./pages/Dashboard";
 import Feedback from "./pages/Feedback";
 import Landing from "./pages/Landing";
@@ -28,6 +30,9 @@ function App() {
               <Route path="/feedback" element={<Feedback />} />
               <Route path="/login" element={<Login />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/mentor-dashboard" element={<Dashboard />} />
+              <Route path="/both-dashboard" element={<BothDashboard />} />
+              <Route path="/both-profile" element={<BothProfile />} />
               <Route path="/logos" element={<LogoShowcase />} />
               <Route path="/mentor-profile" element={<MentorProfile />} />
               <Route path="/learner-profile" element={<LearnerProfile />} />

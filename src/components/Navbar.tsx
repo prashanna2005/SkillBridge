@@ -216,7 +216,9 @@ const Navbar = () => {
                       <div className="py-2">
                         <Link
                           to={
-                            userRole === "mentor" || userRole === "both"
+                            userRole === "both"
+                              ? "/both-profile"
+                              : userRole === "mentor"
                               ? "/mentor-profile"
                               : "/learner-profile"
                           }
@@ -226,7 +228,11 @@ const Navbar = () => {
                           View Profile
                         </Link>
                         <Link
-                          to="/dashboard"
+                          to={
+                            userRole === "both"
+                              ? "/both-dashboard"
+                              : "/dashboard"
+                          }
                           className="block px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
                           onClick={() => setShowProfile(false)}
                         >
@@ -315,7 +321,9 @@ const Navbar = () => {
                 <button
                   onClick={() => {
                     navigate(
-                      userRole === "mentor" || userRole === "both"
+                      userRole === "both"
+                        ? "/both-profile"
+                        : userRole === "mentor"
                         ? "/mentor-profile"
                         : "/learner-profile"
                     );
@@ -330,7 +338,11 @@ const Navbar = () => {
               {/* Mobile Dashboard - Only when logged in */}
               {isLoggedIn && (
                 <Link
-                  to="/dashboard"
+                  to={
+                    userRole === "both"
+                      ? "/both-dashboard"
+                      : "/dashboard"
+                  }
                   onClick={() => setIsOpen(false)}
                   className="block px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md font-medium"
                 >

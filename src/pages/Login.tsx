@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login, register } = useAuth();
+  const { login, register, user } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [showQuiz, setShowQuiz] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -31,9 +31,14 @@ const Login = () => {
 
     if (isLogin) {
       // Handle login
-      const success = await login(formData.email, formData.password);
-      if (success) {
-        navigate("/dashboard");
+      const result = await login(formData.email, formData.password);
+      if (result.success) {
+        // Redirect based on role
+        if (result.user?.role === "both") {
+          navigate("/both-dashboard");
+        } else {
+          navigate("/dashboard");
+        }
       } else {
         setLoginError("Invalid email or password.");
       }
@@ -63,8 +68,20 @@ const Login = () => {
           role: formData.role,
         });
         if (result.success) {
-          alert("Account created successfully! Please login with your credentials.");
-          setIsLogin(true);
+          alert("Account created successfully! Logging you in...");
+          // Auto-login after successful registration
+          const loginResult = await login(formData.email, formData.password);
+          if (loginResult.success) {
+            // Redirect based on role
+            if (formData.role === "both") {
+              navigate("/both-dashboard");
+            } else {
+              navigate("/dashboard");
+            }
+          } else {
+            alert("Login failed after registration. Please try logging in manually.");
+            setIsLogin(true);
+          }
           setFormData({
             name: "",
             email: "",
@@ -102,7 +119,19 @@ const Login = () => {
             0
           )}% and are now registered as a mentor.`
         );
-        navigate("/login");
+        // Auto-login after mentor registration
+        const loginResult = await login(formData.email, formData.password);
+        if (loginResult.success) {
+          // Redirect based on role
+          if (formData.role === "both") {
+            navigate("/both-dashboard");
+          } else {
+            navigate("/dashboard");
+          }
+        } else {
+          alert("Login failed after registration. Please try logging in manually.");
+          navigate("/login");
+        }
       } else {
         alert(result.message);
       }

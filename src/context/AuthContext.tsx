@@ -20,7 +20,7 @@ interface User {
 interface AuthContextType {
   isLoggedIn: boolean;
   user: User | null;
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<{ success: boolean; user?: User }>;
   register: (userData: any) => Promise<{ success: boolean; message: string }>;
   logout: () => void;
 }
@@ -53,7 +53,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string): Promise<{ success: boolean; user?: User }> => {
     try {
       const response = await fetch('http://localhost:5001/api/auth/login', {
         method: 'POST',
@@ -78,14 +78,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           })
         );
 
-        return true;
+        return { success: true, user: data.user };
       } else {
         console.error('Login failed:', data.message);
-        return false;
+        return { success: false };
       }
     } catch (error) {
       console.error('Login error:', error);
-      return false;
+      return { success: false };
     }
   };
 
